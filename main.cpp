@@ -46,6 +46,7 @@ class Snake
     public :
         deque <Vector2> body = {Vector2{6,9},Vector2{5,9},Vector2{4,9}};
         Vector2 direction = {1,0};
+        bool addSegment = false;
 
         void Draw()
         {
@@ -61,8 +62,15 @@ class Snake
 
         void Update()
         {
-            body.pop_back();
             body.push_front(Vector2Add(body[0],direction));
+            if(addSegment == true)
+            {
+                addSegment = false;
+            }
+            else
+            {
+                body.pop_back();
+            }
         }
 };
 
@@ -134,6 +142,7 @@ class Game
         if(Vector2Equals(snake.body[0], apple.position))
         {
             apple.position = apple.GenerateRandomPosition(snake.body);
+            snake.addSegment = true;
         }
     }
 };
@@ -149,7 +158,7 @@ int main() {
     {
         BeginDrawing();
 
-        if(eventTriggered(0.4))
+        if(eventTriggered(0.3))
         {
             game.Update();
         }
