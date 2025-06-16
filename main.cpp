@@ -16,6 +16,19 @@ int cellCount = 25;
 
 double lastUpdateTime = 0;
 
+bool ElementInDeque(Vector2 element , deque <Vector2> deque)
+{
+    for(unsigned int i = 0 ; i < deque.size(); i++)
+    {
+        if(Vector2Equals(element,deque[i]))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool eventTriggered(double interval)
 {
     double currentTime = GetTime();
@@ -60,12 +73,12 @@ class Apple{
         Vector2 position;
         Texture2D texture;
 
-        Apple()
+        Apple(deque <Vector2> snakeBody)
         {
             Image image = LoadImage("Graphics/apple.png");
             texture = LoadTextureFromImage(image);
             UnloadImage(image);
-            position = GenerateRandomPosition();
+            position = GenerateRandomPosition(snakeBody);
         }
 
         ~Apple()
@@ -79,11 +92,21 @@ class Apple{
             DrawTexture(texture , position.x * cellSize , position.y * cellSize , WHITE);
         }
 
-        Vector2 GenerateRandomPosition()
+        Vector2 GenerateRandomCell()
         {
             float x = GetRandomValue(0 , cellCount - 1);
             float y = GetRandomValue(0, cellCount - 1);
             return Vector2{x,y};
+        }
+
+        Vector2 GenerateRandomPosition(deque <Vector2> snakeBody)
+        {
+            Vector2 position = GenerateRandomCell();
+            while (ElementInDeque(position,snakeBody))
+            {
+                 position = GenerateRandomCell();
+            }
+            return position;
         }
 };
 
@@ -92,7 +115,7 @@ class Game
 {
     public:
     Snake snake = Snake();
-    Apple apple = Apple();
+    Apple apple = Apple(snake.body);
 
     void Draw()
     {
@@ -103,7 +126,15 @@ class Game
     void Update()
     {
         snake.Update();
+        CheckCollisionWithFood();
+    }
 
+    void CheckCollisionWithFood()
+    {
+        if(Vector2Equals(snake.body[0], apple.position))
+        {
+            apple.position = apple.GenerateRandomPosition(snake.body);
+        }
     }
 };
 
