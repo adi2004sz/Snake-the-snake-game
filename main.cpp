@@ -27,6 +27,7 @@ bool eventTriggered(double interval)
     return false;
 }
 
+
 class Snake
 {
     public :
@@ -51,8 +52,6 @@ class Snake
             body.push_front(Vector2Add(body[0],direction));
         }
 };
-
-
 
 
 class Apple{
@@ -88,13 +87,32 @@ class Apple{
         }
 };
 
+
+class Game
+{
+    public:
+    Snake snake = Snake();
+    Apple apple = Apple();
+
+    void Draw()
+    {
+        apple.Draw();
+        snake.Draw();
+    }
+
+    void Update()
+    {
+        snake.Update();
+
+    }
+};
+
 int main() {
     cout << "Game is starting !" << endl;
     InitWindow(cellSize * cellCount, cellSize * cellCount, "Snake Window");
     SetTargetFPS(120);
 
-    Apple apple = Apple();
-    Snake snake = Snake();
+    Game game = Game();
 
     while(WindowShouldClose() == false)
     {
@@ -102,33 +120,31 @@ int main() {
 
         if(eventTriggered(0.4))
         {
-            snake.Update();
+            game.Update();
         }
 
-        
-        if(IsKeyPressed(KEY_UP) && snake.direction.y != 1)
+
+        if(IsKeyPressed(KEY_UP) && game.snake.direction.y != 1)
         {
-            snake.direction = {0, -1};
+            game.snake.direction = {0, -1};
         }
-        if(IsKeyPressed(KEY_DOWN) && snake.direction.y != -1)
+        if(IsKeyPressed(KEY_DOWN) && game.snake.direction.y != -1)
         {
-            snake.direction = {0, 1};
+            game.snake.direction = {0, 1};
         }
-        if(IsKeyPressed(KEY_LEFT) && snake.direction.x != 1)
+        if(IsKeyPressed(KEY_LEFT) && game.snake.direction.x != 1)
         {
-            snake.direction = {-1, 0};
+            game.snake.direction = {-1, 0};
         }
-        if(IsKeyPressed(KEY_RIGHT) && snake.direction.x != -1)
+        if(IsKeyPressed(KEY_RIGHT) && game.snake.direction.x != -1)
         {
-            snake.direction = {1, 0};
+            game.snake.direction = {1, 0};
         }
 
         
 
         ClearBackground(yellow);
-        apple.Draw();
-        snake.Draw();
-
+        game.Draw();
         EndDrawing();
     }
 
