@@ -223,6 +223,7 @@ class Game
         apple.position = apple.GenerateRandomPosition(snake.body);
         running = false;
         score = 0;
+        currentState = GAME_OVER;
     }
 
     void CheckCollisionWithTail()
@@ -286,6 +287,7 @@ int main() {
     
     InitWindow(windowWidth, windowHeight, "Snake Window");
     SetTargetFPS(120);
+    SetExitKey(KEY_NULL);
 
     Game game = Game();
     
