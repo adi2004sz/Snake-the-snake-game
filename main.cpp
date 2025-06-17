@@ -132,6 +132,7 @@ class Game
     Snake snake = Snake();
     Apple apple = Apple(snake.body);
     bool running = true;
+    bool pause = false;
     int score = 0;
 
     void Draw()
@@ -142,7 +143,7 @@ class Game
 
     void Update()
     {
-        if(running)
+        if(running == true && pause == false)
         {
             snake.Update();
             CheckCollisionWithFood();
@@ -210,25 +211,29 @@ int main() {
         }
 
 
-        if(IsKeyPressed(KEY_UP) && game.snake.direction.y != 1)
+        if(IsKeyPressed(KEY_UP) && game.snake.direction.y != 1 && game.pause == false)
         {
             game.snake.direction = {0, -1};
             game.running = true;
         }
-        if(IsKeyPressed(KEY_DOWN) && game.snake.direction.y != -1)
+        if(IsKeyPressed(KEY_DOWN) && game.snake.direction.y != -1 && game.pause == false)
         {
             game.snake.direction = {0, 1};
             game.running = true;
         }
-        if(IsKeyPressed(KEY_LEFT) && game.snake.direction.x != 1)
+        if(IsKeyPressed(KEY_LEFT) && game.snake.direction.x != 1 && game.pause == false)
         {
             game.snake.direction = {-1, 0};
             game.running = true;
         }
-        if(IsKeyPressed(KEY_RIGHT) && game.snake.direction.x != -1)
+        if(IsKeyPressed(KEY_RIGHT) && game.snake.direction.x != -1 && game.pause == false)
         {
             game.snake.direction = {1, 0};
             game.running = true;
+        }
+        if(IsKeyPressed(KEY_SPACE))
+        {
+            game.pause = !game.pause;
         }
 
         
@@ -240,6 +245,11 @@ int main() {
         DrawText("Snake , the snake game", offset - 5 , 20 , 40 , darkGreen);
         DrawText(TextFormat("%i",game.score) , offset-5, offset + cellSize * cellCount + 10, 40 , darkGreen);
 
+        if(game.pause)
+        {
+            DrawText("Paused",375,375,40,beinge);
+        }
+        
         game.Draw();
 
         EndDrawing();
