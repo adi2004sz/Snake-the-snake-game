@@ -2,7 +2,19 @@
 
 A modern implementation of the classic Snake game built with C++ and raylib. Navigate the snake, eat apples to grow longer, and avoid collisions with yourself and the walls as you rack up your score!
 
+<div align="center">
+
+## 🎮 Game Screenshots
+
+### Main Menu
+![Snake Game Menu](Images/menu_screen.png)
+*Clean and intuitive main menu with start and exit options*
+
+### Gameplay
 ![Snake Gameplay](Images/game_demo.png)
+*In-game action showing the snake, apples, and score system*
+
+</div>
 
 ## 📋 Table of Contents
 
@@ -34,11 +46,22 @@ A modern implementation of the classic Snake game built with C++ and raylib. Nav
 
 ## 🎮 Demo
 
-Here's what the game looks like in action:
+Experience the classic Snake gameplay with a modern twist:
 
+<div align="center">
+
+### Main Menu
+![Snake Game Menu](Images/menu_screen.png)
+
+### Gameplay Action
 ![Snake Gameplay](Images/game_demo.png)
 
-*Navigate your snake, collect apples, and watch your score grow!*
+</div>
+
+The game features a clean, intuitive interface with:
+- **Main Menu**: Easy navigation with START and EXIT buttons
+- **Smooth Gameplay**: Responsive controls and fluid movement
+- **Visual Feedback**: Clear score display and game state indicators
 
 ## 🛠 Technologies
 
@@ -149,7 +172,8 @@ Snake-the-snake-game/
 │   └── apple.png      # Apple sprite texture
 │
 └── Images/            # Documentation images
-    └── game_demo.png  # Gameplay screenshot
+    ├── menu_screen.png    # Main menu screenshot
+    └── game_demo.png      # Gameplay screenshot
 ```
 
 ## 🤝 Contributing
