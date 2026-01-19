@@ -1,6 +1,6 @@
-# 🐍 Snake - The Classic Snake Game
+# 🐍 Snake-the-snake-game
 
-A modern implementation of the classic Snake game built with C++ and raylib. Navigate the snake, eat apples to grow longer, and avoid collisions with yourself and the walls as you rack up your score!
+A modern implementation of the classic Snake game built with C++ and raylib. Navigate the snake, eat apples to grow longer, and avoid collisions as you rack up your score!
 
 <div align="center">
 
@@ -8,7 +8,7 @@ A modern implementation of the classic Snake game built with C++ and raylib. Nav
 
 ### Main Menu
 ![Snake Game Menu](Images/menu_screen.png)
-*Clean and intuitive main menu with start and exit options*
+*Clean and intuitive main menu with multiple options*
 
 ### Gameplay
 ![Snake Gameplay](Images/game_demo.png)
@@ -19,7 +19,7 @@ A modern implementation of the classic Snake game built with C++ and raylib. Nav
 ## 📋 Table of Contents
 
 - [Features](#-features)
-- [Demo](#-demo)
+- [Settings Menu](#-settings-menu)
 - [Technologies](#-technologies)
 - [Prerequisites](#-prerequisites)
 - [Installation](#-installation)
@@ -35,39 +35,47 @@ A modern implementation of the classic Snake game built with C++ and raylib. Nav
 
 ## ✨ Features
 
-- 🎮 **Smooth Gameplay** - Grid-based movement with smooth animations
+- 🎮 **Smooth Gameplay** - Grid-based movement with responsive controls
 - 🍎 **Apple Collection** - Eat apples to grow your snake and increase your score
-- 📊 **Score Tracking** - Real-time score display as you play
-- 🎨 **Clean UI** - Menu system with start and game-over screens
-- ⏸️ **Pause/Resume** - Take a break whenever you need
-- 🔄 **Quick Restart** - Instantly restart after game over
-- 💚 **Custom Graphics** - Beautiful color scheme and custom apple sprite
-- 🎯 **Collision Detection** - Smart collision system for walls and self-collision
+- 📊 **Score & High Score Tracking** - Track your best performance during each session
+- 🎨 **Full Customization** - Change snake color, background color, and more
+- ⚙️ **Settings Menu** - Comprehensive settings with live preview
+- ⏸️ **Pause Menu** - Full pause menu with resume, restart, settings, and menu options
+- 🔄 **Quick Restart** - Instantly restart with keyboard shortcut
+- 🎯 **Multiple Difficulty Levels** - Easy, Normal, and Hard modes
+- 📐 **Adjustable Grid Size** - Small (15x15), Medium (20x20), or Large (25x25)
+- 🧱 **Wall Mode Toggle** - Choose between wall collision or wrap-around gameplay
+- 🎹 **Multiple Control Schemes** - Arrow Keys or WASD support
+- 👀 **Snake Eyes** - Visual indicator showing snake's direction
 
-## 🎮 Demo
+## ⚙️ Settings Menu
 
-Experience the classic Snake gameplay with a modern twist:
+The game includes a comprehensive settings menu accessible from the main menu or pause screen:
 
-<div align="center">
+### Gameplay Settings
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Difficulty** | Easy / Normal / Hard | Adjusts snake movement speed |
+| **Grid Size** | Small / Medium / Large | Changes the game board dimensions |
+| **Walls** | ON / OFF | ON = die on wall collision, OFF = wrap around screen |
 
-### Main Menu
-![Snake Game Menu](Images/menu_screen.png)
+### Audio & Controls
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Sound** | ON / OFF | Toggle game sounds |
+| **Controls** | Arrow Keys / WASD | Choose your preferred control scheme |
 
-### Gameplay Action
-![Snake Gameplay](Images/game_demo.png)
-
-</div>
-
-The game features a clean, intuitive interface with:
-- **Main Menu**: Easy navigation with START and EXIT buttons
-- **Smooth Gameplay**: Responsive controls and fluid movement
-- **Visual Feedback**: Clear score display and game state indicators
+### Customization
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Snake Color** | Green, Blue, Purple, Red, Orange, Cyan | Customize your snake's appearance |
+| **Background Color** | Yellow, Light Blue, Pink, Light Green, White | Change the game background |
 
 ## 🛠 Technologies
 
 This project is built using:
 
-- **C++** - Core game logic and programming
+- **C++17** - Core game logic and programming
 - **raylib** - Graphics rendering and game framework
 - **MSYS2/MinGW-w64** - Build toolchain for Windows
 
@@ -106,7 +114,7 @@ pacman -S mingw-w64-ucrt-x86_64-gcc
 
 If you're using VS Code, simply use the build task:
 
-1. Press `Ctrl+Shift+B` (or `Cmd+Shift+B` on Mac)
+1. Press `Ctrl+Shift+B`
 2. Select "build raylib project"
 
 ### Option 2: Manual Build
@@ -114,7 +122,7 @@ If you're using VS Code, simply use the build task:
 Open your terminal and run:
 
 ```bash
-g++ -g main.cpp -o main.exe -I C:/msys64/ucrt64/include -L C:/msys64/ucrt64/lib -lraylib -lwinmm -lgdi32 -lopengl32
+g++ -g -std=c++17 main.cpp -o main.exe -I C:/msys64/ucrt64/include -L C:/msys64/ucrt64/lib -lraylib -lwinmm -lgdi32 -lopengl32 -lstdc++
 ```
 
 **Note:** Adjust the include and library paths if your MSYS2 installation is in a different location.
@@ -127,37 +135,76 @@ g++ -g main.cpp -o main.exe -I C:/msys64/ucrt64/include -L C:/msys64/ucrt64/lib 
    ```
 
 2. **Start playing**
-   - Click "Start Game" on the main menu
+   - Click "START GAME" or press ENTER on the main menu
    - Use arrow keys or WASD to control your snake
    - Collect apples to grow and increase your score
-   - Avoid hitting walls or your own body
+   - Avoid hitting walls (if enabled) or your own body
 
-3. **Game Over**
+3. **Pause the game**
+   - Press SPACE or P to pause
+   - Access settings, restart, or return to menu from pause screen
+
+4. **Game Over**
    - When you collide, a game-over screen appears
-   - View your final score
-   - Press SPACE to restart or ESC to exit
+   - View your score and high score
+   - Press R to restart or ESC for main menu
 
 ## 🎮 Controls
 
-| Action          | Key(s)          |
-| --------------- | --------------- |
-| Move Up         | ↑ or W          |
-| Move Down       | ↓ or S          |
-| Move Left       | ← or A          |
-| Move Right      | → or D          |
-| Pause / Resume  | SPACE           |
-| Restart         | SPACE (on Game Over) |
-| Exit            | ESC             |
+### Menu Controls
+| Action | Key(s) |
+|--------|--------|
+| Start Game | ENTER or Click |
+| Exit Game | ESC |
+| Navigate | Mouse |
+
+### Gameplay Controls (Arrow Keys mode)
+| Action | Key(s) |
+|--------|--------|
+| Move Up | ↑ |
+| Move Down | ↓ |
+| Move Left | ← |
+| Move Right | → |
+| Pause / Resume | SPACE or P |
+| Quick Restart | R |
+| Open Pause Menu | ESC |
+
+### Gameplay Controls (WASD mode)
+| Action | Key(s) |
+|--------|--------|
+| Move Up | W |
+| Move Down | S |
+| Move Left | A |
+| Move Right | D |
+| Pause / Resume | SPACE or P |
+| Quick Restart | R |
+| Open Pause Menu | ESC |
+
+### Settings Menu Controls
+| Action | Key(s) |
+|--------|--------|
+| Go Back | ESC or BACKSPACE |
+| Change Options | Click < > arrows |
+| Toggle Settings | Click toggle |
 
 ## 📖 Game Rules
 
 - 🐍 The snake starts with 3 segments
 - 🍎 Each apple eaten adds one segment to the snake
 - 📈 Your score increases with each apple collected
+- 🏆 High score is tracked during your session
 - 💥 The game ends if you:
-  - Hit the boundary walls
+  - Hit the boundary walls (when Walls are ON)
   - Collide with your own body
+- 🔄 With Walls OFF, the snake wraps around to the opposite side
 - ⚡ You cannot reverse direction instantly (e.g., can't go directly from right to left)
+
+### Difficulty Speeds
+| Difficulty | Update Interval |
+|------------|-----------------|
+| Easy | 0.4 seconds |
+| Normal | 0.25 seconds |
+| Hard | 0.15 seconds |
 
 ## 📁 Project Structure
 
@@ -167,6 +214,9 @@ Snake-the-snake-game/
 ├── main.cpp           # Main game source code
 ├── main.exe           # Compiled executable
 ├── README.md          # Project documentation
+│
+├── .vscode/           # VS Code configuration
+│   └── tasks.json     # Build tasks
 │
 ├── Graphics/          # Game assets
 │   └── apple.png      # Apple sprite texture
@@ -189,12 +239,12 @@ Contributions are welcome! Here's how you can help:
 
 ### Ideas for Contributions
 
-- Add difficulty levels (speed variations)
-- Implement high score system with persistence
+- Implement high score persistence (save to file)
 - Add sound effects and background music
 - Create power-ups (speed boost, invincibility, etc.)
 - Add different game modes (timed mode, obstacle mode)
 - Improve graphics with animations
+- Add multiplayer support
 
 ## 📄 License
 
