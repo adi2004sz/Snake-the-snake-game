@@ -8,11 +8,19 @@ A modern implementation of the classic Snake game built with C++ and raylib. Nav
 
 ### Main Menu
 ![Snake Game Menu](Images/menu_screen.png)
-*Clean and intuitive main menu with multiple options*
+*Clean and intuitive main menu with Start, Settings, and Exit options*
+
+### Settings Menu
+![Snake Settings](Images/settings_screen.png)
+*Comprehensive settings with difficulty, grid size, controls, and customization options*
 
 ### Gameplay
 ![Snake Gameplay](Images/game_demo.png)
-*In-game action showing the snake, apples, and score system*
+*In-game action showing the snake with eyes, apple, score, and game info*
+
+### Game Over
+![Snake Game Over](Images/game_over_screen.png)
+*Game over screen with score display and restart options*
 
 </div>
 
@@ -222,8 +230,10 @@ Snake-the-snake-game/
 │   └── apple.png      # Apple sprite texture
 │
 └── Images/            # Documentation images
-    ├── menu_screen.png    # Main menu screenshot
-    └── game_demo.png      # Gameplay screenshot
+    ├── menu_screen.png       # Main menu screenshot
+    ├── settings_screen.png   # Settings menu screenshot
+    ├── game_demo.png         # Gameplay screenshot
+    └── game_over_screen.png  # Game over screenshot
 ```
 
 ## 🤝 Contributing
