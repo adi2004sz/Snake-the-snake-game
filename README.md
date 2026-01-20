@@ -37,7 +37,6 @@ A modern implementation of the classic Snake game built with C++ and raylib. Nav
 - [Game Rules](#-game-rules)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
@@ -130,7 +129,7 @@ If you're using VS Code, simply use the build task:
 Open your terminal and run:
 
 ```bash
-g++ -g -std=c++17 main.cpp -o main.exe -I C:/msys64/ucrt64/include -L C:/msys64/ucrt64/lib -lraylib -lwinmm -lgdi32 -lopengl32 -lstdc++
+g++ -g -std=c++17 main.cpp globals.cpp -o main.exe -I C:/msys64/ucrt64/include -L C:/msys64/ucrt64/lib -lraylib -lwinmm -lgdi32 -lopengl32 -static-libgcc -static-libstdc++
 ```
 
 **Note:** Adjust the include and library paths if your MSYS2 installation is in a different location.
@@ -219,12 +218,18 @@ g++ -g -std=c++17 main.cpp -o main.exe -I C:/msys64/ucrt64/include -L C:/msys64/
 ```
 Snake-the-snake-game/
 │
-├── main.cpp           # Main game source code
+├── main.cpp           # Main game loop and entry point
+├── globals.h          # Global declarations and enums
+├── globals.cpp        # Global implementations
+├── ui.h               # UI components (buttons, selectors)
+├── game.h             # Game logic (Snake, Apple, Game classes)
+├── screens.h          # Screen drawing functions
 ├── main.exe           # Compiled executable
 ├── README.md          # Project documentation
 │
 ├── .vscode/           # VS Code configuration
-│   └── tasks.json     # Build tasks
+│   ├── tasks.json     # Build tasks
+│   └── launch.json    # Debug configuration
 │
 ├── Graphics/          # Game assets
 │   └── apple.png      # Apple sprite texture
@@ -255,10 +260,6 @@ Contributions are welcome! Here's how you can help:
 - Add different game modes (timed mode, obstacle mode)
 - Improve graphics with animations
 - Add multiplayer support
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ---
 

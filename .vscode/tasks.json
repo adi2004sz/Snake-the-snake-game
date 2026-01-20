@@ -9,6 +9,7 @@
                 "-g",
                 "-std=c++17",
                 "main.cpp",
+                "globals.cpp",
                 "-o",
                 "main.exe",
                 "-I",
@@ -19,7 +20,8 @@
                 "-lwinmm",
                 "-lgdi32",
                 "-lopengl32",
-                "-lstdc++"
+                "-static-libgcc",
+                "-static-libstdc++"
             ],
             "group": "build",
             "problemMatcher": [
