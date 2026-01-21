@@ -1,5 +1,6 @@
 #include "globals.h"
 #include <deque>
+#include <cstdio>
 
 Color yellow = {255, 184, 35, 255};
 Color darkGreen = {45, 79, 43, 255};
@@ -124,4 +125,26 @@ bool ElementInDeque(Vector2 element, std::deque<Vector2>& deque) {
         }
     }
     return false;
+}
+
+int LoadHighScore() {
+    int highScore = 0;
+    FILE* file = fopen("highscore.dat", "r");
+    if (file != NULL) {
+        fscanf(file, "%d", &highScore);
+        fclose(file);
+    }
+    return highScore;
+}
+
+void SaveHighScore(int score) {
+    FILE* file = fopen("highscore.dat", "w");
+    if (file != NULL) {
+        fprintf(file, "%d", score);
+        fclose(file);
+    }
+}
+
+void DeleteHighScore() {
+    remove("highscore.dat");
 }

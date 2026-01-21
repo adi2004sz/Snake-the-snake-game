@@ -12,17 +12,17 @@ void DrawTitle(const char* title, int y, int fontSize, Color color) {
 void DrawMenu(Button& startButton, Button& settingsButton, Button& exitButton, int highScore) {
     ClearBackground(gameSettings.GetBackgroundColor());
     
-    DrawTitle("Snake, The Snake Game", 100, 60, darkGreen);
+    DrawTitle("Snake, The Snake Game", 100, 80, darkGreen);
     
     const char* subtitle = "Use arrow keys to move, SPACE to pause";
     if (gameSettings.controls == WASD) {
         subtitle = "Use WASD to move, SPACE to pause";
     }
-    DrawTitle(subtitle, 180, 20, darkGreen);
+    DrawTitle(subtitle, 180, 24, darkGreen);
     
     char highScoreText[50];
-    sprintf(highScoreText, "High Score: %d", highScore);
-    DrawTitle(highScoreText, 220, 24, darkGreen);
+    snprintf(highScoreText, sizeof(highScoreText), "High Score: %d", highScore);
+    DrawTitle(highScoreText, 220, 28, darkGreen);
     
     startButton.Update();
     settingsButton.Update();
@@ -35,19 +35,19 @@ void DrawMenu(Button& startButton, Button& settingsButton, Button& exitButton, i
     DrawTitle("Press ENTER to Start, ESC to Exit", WINDOW_HEIGHT - 60, 16, gray);
 }
 
-void DrawSettingsMenu(Button& backButton, ToggleButton& soundToggle, ToggleButton& wallsToggle,
+void DrawSettingsMenu(Button& backButton, Button& deleteHighScoreButton, SelectorButton& soundVolumeSelector, ToggleButton& wallsToggle,
                       SelectorButton& difficultySelector, SelectorButton& gridSelector,
                       SelectorButton& controlsSelector, ColorSelector& snakeColorSelector,
                       ColorSelector& bgColorSelector) {
     ClearBackground(gameSettings.GetBackgroundColor());
     
-    DrawTitle("Settings", 40, 50, darkGreen);
+    DrawTitle("Settings", 40, 60, darkGreen);
     
     Rectangle panelBg = {(float)(WINDOW_WIDTH/2 - 300), 100, 600, 680};
     DrawRectangleRounded(panelBg, 0.05f, 6, Fade(white, 0.3f));
     DrawRectangleRoundedLines(panelBg, 0.05f, 6, darkGreen);
     
-    soundToggle.Update();
+    soundVolumeSelector.Update();
     wallsToggle.Update();
     difficultySelector.Update();
     gridSelector.Update();
@@ -55,52 +55,56 @@ void DrawSettingsMenu(Button& backButton, ToggleButton& soundToggle, ToggleButto
     snakeColorSelector.Update();
     bgColorSelector.Update();
     backButton.Update();
+    deleteHighScoreButton.Update();
     
     int leftCol = WINDOW_WIDTH/2 - 260;
     int rightCol = WINDOW_WIDTH/2 + 20;
     
-    DrawText("GAMEPLAY", leftCol, 130, 24, darkGreen);
+    DrawText("GAMEPLAY", leftCol, 130, 28, darkGreen);
     DrawLine(leftCol, 158, leftCol + 240, 158, darkGreen);
     
-    DrawText("Difficulty", leftCol, 170, 16, darkGreen);
+    DrawText("Difficulty", leftCol, 170, 20, darkGreen);
     difficultySelector.Draw();
     
-    DrawText("Grid Size", leftCol, 245, 16, darkGreen);
+    DrawText("Grid Size", leftCol, 245, 20, darkGreen);
     gridSelector.Draw();
     
-    DrawText("Walls (Die on collision)", leftCol, 320, 16, darkGreen);
+    DrawText("Walls", leftCol, 320, 20, darkGreen);
     wallsToggle.Draw();
     
-    DrawText("AUDIO & CONTROLS", rightCol, 130, 24, darkGreen);
+    DrawText("AUDIO & CONTROLS", rightCol, 130, 28, darkGreen);
     DrawLine(rightCol, 158, rightCol + 240, 158, darkGreen);
     
-    DrawText("Sound", rightCol, 170, 16, darkGreen);
-    soundToggle.Draw();
+    DrawText("Sound", rightCol, 170, 20, darkGreen);
+    soundVolumeSelector.Draw();
     
-    DrawText("Controls", rightCol, 245, 16, darkGreen);
+    DrawText("Controls", rightCol, 245, 20, darkGreen);
     controlsSelector.Draw();
     
-    DrawText("CUSTOMIZATION", WINDOW_WIDTH/2 - 80, 480, 24, darkGreen);
-    DrawLine(WINDOW_WIDTH/2 - 120, 508, WINDOW_WIDTH/2 + 120, 508, darkGreen);
+    int customTextWidth = MeasureText("CUSTOMIZATION", 28);
+    int customTextX = WINDOW_WIDTH/2 - customTextWidth/2;
+    DrawText("CUSTOMIZATION", customTextX, 480, 28, darkGreen);
+    DrawLine(WINDOW_WIDTH/2 - 140, 508, WINDOW_WIDTH/2 + 140, 508, darkGreen);
     
-    DrawText("Snake Color", WINDOW_WIDTH/2 - 140, 520, 16, darkGreen);
+    DrawText("Snake Color", WINDOW_WIDTH/2 - 140, 520, 20, darkGreen);
     snakeColorSelector.Draw();
     
-    DrawText("Background Color", WINDOW_WIDTH/2 - 140, 595, 16, darkGreen);
+    DrawText("Background Color", WINDOW_WIDTH/2 - 140, 595, 20, darkGreen);
     bgColorSelector.Draw();
     
-    backButton.Draw();
+    DrawText("PREVIEW", WINDOW_WIDTH/2 - 50, 660, 20, darkGreen);
     
-    Rectangle previewBg = {(float)(WINDOW_WIDTH/2 - 60), 720, 120, 60};
+    Rectangle previewBg = {(float)(WINDOW_WIDTH/2 - 60), 685, 120, 60};
     DrawRectangleRounded(previewBg, 0.2f, 4, gameSettings.GetBackgroundColor());
     DrawRectangleRoundedLines(previewBg, 0.2f, 4, darkGreen);
     
     for (int i = 0; i < 3; i++) {
-        Rectangle seg = {(float)(WINDOW_WIDTH/2 - 40 + i * 25), 735, 20, 20};
+        Rectangle seg = {(float)(WINDOW_WIDTH/2 - 40 + i * 25), 700, 20, 20};
         DrawRectangleRounded(seg, 0.4f, 4, gameSettings.GetSnakeColor());
     }
     
-    DrawText("Preview", WINDOW_WIDTH/2 - 30, 788, 18, darkGreen);
+    deleteHighScoreButton.Draw();
+    backButton.Draw();
     
     DrawTitle("Press ESC or BACKSPACE to go back", WINDOW_HEIGHT - 40, 16, gray);
 }
@@ -137,11 +141,11 @@ void DrawGameOver(Button& restartButton, Button& menuButton, int score, int high
     DrawTitle("GAME OVER", 230, 45, red);
     
     char scoreText[50];
-    sprintf(scoreText, "Score: %d", score);
+    snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
     DrawTitle(scoreText, 300, 30, darkGreen);
     
     char highScoreText[50];
-    sprintf(highScoreText, "High Score: %d", highScore);
+    snprintf(highScoreText, sizeof(highScoreText), "High Score: %d", highScore);
     DrawTitle(highScoreText, 340, 24, gray);
     
     restartButton.Update();
@@ -168,16 +172,16 @@ void DrawGameUI(int score, int highScore, bool isPaused) {
     DrawText(title, (WINDOW_WIDTH - titleWidth) / 2, 20, 35, darkGreen);
     
     char scoreText[50];
-    sprintf(scoreText, "Score: %d", score);
+    snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
     DrawText(scoreText, offsetX, offsetY + gameHeight + 15, 30, darkGreen);
     
     char highScoreText[50];
-    sprintf(highScoreText, "High Score: %d", highScore);
+    snprintf(highScoreText, sizeof(highScoreText), "High Score: %d", highScore);
     int hsWidth = MeasureText(highScoreText, 24);
     DrawText(highScoreText, offsetX + gameWidth - hsWidth, offsetY + gameHeight + 20, 24, gray);
     
     char diffText[30];
-    sprintf(diffText, "Difficulty: %s", gameSettings.GetDifficultyName());
+    snprintf(diffText, sizeof(diffText), "Difficulty: %s", gameSettings.GetDifficultyName());
     DrawText(diffText, 20, 60, 16, darkGreen);
     
     const char* wallText = gameSettings.wallsEnabled ? "Walls: ON" : "Walls: OFF";

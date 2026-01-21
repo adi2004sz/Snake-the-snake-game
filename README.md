@@ -69,7 +69,7 @@ The game includes a comprehensive settings menu accessible from the main menu or
 ### Audio & Controls
 | Setting | Options | Description |
 |---------|---------|-------------|
-| **Sound** | ON / OFF | Toggle game sounds |
+| **Sound** | OFF / 25% / 50% / 75% / 100% | Adjust game sound volume levels |
 | **Controls** | Arrow Keys / WASD | Choose your preferred control scheme |
 
 ### Customization

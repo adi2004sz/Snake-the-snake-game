@@ -8,6 +8,7 @@
 #include "ui.h"
 #include "game.h"
 #include "screens.h"
+#include "audio.h"
 
 using namespace std;
 
@@ -16,8 +17,12 @@ int main() {
     SetTargetFPS(120);
     SetExitKey(KEY_NULL);
 
+    AudioManager audio;
+    audio.Init();
+
     Game game = Game();
     game.apple.LoadTexture();
+    game.highScore = LoadHighScore();
     
     cellCount = gameSettings.GetCellCount();
     game.ApplySettings();
@@ -36,9 +41,14 @@ int main() {
     Button menuPauseButton(WINDOW_WIDTH/2 - 100, 485, 200, 50, "MAIN MENU", beige, darkGreen, 24);
 
     Button backButton(WINDOW_WIDTH/2 - 100, 860, 200, 45, "BACK", beige, darkGreen, 24);
+    Button deleteHighScoreButton(WINDOW_WIDTH/2 - 150, 810, 300, 40, "DELETE HIGH SCORE", Color{255, 100, 100, 255}, darkGreen, 20);
     
-    ToggleButton soundToggle(WINDOW_WIDTH/2 + 40, 190, 80, 35, "Sound", &gameSettings.soundEnabled);
-    ToggleButton wallsToggle(WINDOW_WIDTH/2 - 240, 340, 80, 35, "Walls (Die on collision)", &gameSettings.wallsEnabled);
+    ToggleButton wallsToggle(WINDOW_WIDTH/2 - 210, 340, 80, 35, "Walls", &gameSettings.wallsEnabled);
+    
+    const char* soundVolumeOptions[] = {"OFF", "25%", "50%", "75%", "100%"};
+    int soundVolumeIndex = gameSettings.soundVolumeIndex;
+    SelectorButton soundVolumeSelector(WINDOW_WIDTH/2 + 20, 190, 220, 40, "Sound",
+                                      &soundVolumeIndex, 5, soundVolumeOptions);
     
     const char* difficultyOptions[] = {"Easy", "Normal", "Hard"};
     int difficultyIndex = (int)gameSettings.difficulty;
@@ -64,6 +74,8 @@ int main() {
                                  gameSettings.backgroundColorNames, 5);
 
     while (!WindowShouldClose()) {
+        audio.UpdateMusic();
+        
         BeginDrawing();
 
         switch (currentState) {
@@ -71,25 +83,39 @@ int main() {
                 DrawMenu(startButton, settingsButtonMenu, exitButton, game.highScore);
                 
                 if (startButton.IsClicked() || IsKeyPressed(KEY_ENTER)) {
+                    audio.PlayClickSound();
                     currentState = PLAYING;
                     cellCount = gameSettings.GetCellCount();
                     game.ApplySettings();
                     game.Reset();
                 }
                 if (settingsButtonMenu.IsClicked()) {
+                    audio.PlayClickSound();
                     previousState = MENU;
                     currentState = SETTINGS;
                 }
                 if (exitButton.IsClicked() || IsKeyPressed(KEY_ESCAPE)) {
                     CloseWindow();
+                    audio.Cleanup();
                     return 0;
                 }
                 break;
             }
 
             case PLAYING: {
+                int previousScore = game.score;
+                bool wasRunning = game.running;
+                
                 if (eventTriggered(gameSettings.GetGameSpeed())) {
                     game.Update();
+                }
+                
+                if (game.score > previousScore) {
+                    audio.PlayEatSound();
+                }
+                
+                if (wasRunning && !game.running && currentState == GAME_OVER) {
+                    audio.PlayGameOverSound();
                 }
 
                 bool canMove = !game.pause;
@@ -160,18 +186,22 @@ int main() {
                 DrawPauseOverlay(resumeButton, restartPauseButton, settingsPauseButton, menuPauseButton);
                 
                 if (resumeButton.IsClicked() || IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_P)) {
+                    audio.PlayClickSound();
                     game.pause = false;
                     currentState = PLAYING;
                 }
                 if (restartPauseButton.IsClicked() || IsKeyPressed(KEY_R)) {
+                    audio.PlayClickSound();
                     game.Reset();
                     currentState = PLAYING;
                 }
                 if (settingsPauseButton.IsClicked()) {
+                    audio.PlayClickSound();
                     previousState = PAUSED;
                     currentState = SETTINGS;
                 }
                 if (menuPauseButton.IsClicked() || IsKeyPressed(KEY_ESCAPE)) {
+                    audio.PlayClickSound();
                     currentState = MENU;
                     game.Reset();
                 }
@@ -179,14 +209,21 @@ int main() {
             }
 
             case SETTINGS: {
-                DrawSettingsMenu(backButton, soundToggle, wallsToggle, difficultySelector,
+                DrawSettingsMenu(backButton, deleteHighScoreButton, soundVolumeSelector, wallsToggle, difficultySelector,
                                gridSelector, controlsSelector, snakeColorSelector, bgColorSelector);
                 
                 gameSettings.difficulty = (Difficulty)difficultyIndex;
                 gameSettings.gridSize = (GridSize)gridIndex;
                 gameSettings.controls = (ControlScheme)controlIndex;
+                gameSettings.soundVolumeIndex = soundVolumeIndex;
+                
+                if (deleteHighScoreButton.IsClicked()) {
+                    audio.PlayClickSound();
+                    DeleteHighScore();
+                }
                 
                 if (backButton.IsClicked() || IsKeyPressed(KEY_ESCAPE) || IsKeyPressed(KEY_BACKSPACE)) {
+                    audio.PlayClickSound();
                     if (cellCount != gameSettings.GetCellCount()) {
                         cellCount = gameSettings.GetCellCount();
                         game.ApplySettings();
@@ -207,10 +244,12 @@ int main() {
                 DrawGameOver(restartButton, menuButtonGO, game.score, game.highScore);
                 
                 if (restartButton.IsClicked() || IsKeyPressed(KEY_R) || IsKeyPressed(KEY_ENTER)) {
+                    audio.PlayClickSound();
                     game.Reset();
                     currentState = PLAYING;
                 }
                 if (menuButtonGO.IsClicked() || IsKeyPressed(KEY_ESCAPE)) {
+                    audio.PlayClickSound();
                     currentState = MENU;
                     game.Reset();
                 }
@@ -221,6 +260,7 @@ int main() {
         EndDrawing();
     }
 
+    audio.Cleanup();
     CloseWindow();
     return 0;
 }

@@ -156,6 +156,7 @@ public:
             score++;
             if (score > highScore) {
                 highScore = score;
+                SaveHighScore(highScore);
             }
         }
     }

@@ -87,7 +87,7 @@ struct ToggleButton {
         activeColor = {45, 150, 45, 255};
         inactiveColor = gray;
         isHovered = false;
-        fontSize = 16;
+        fontSize = 22;
     }
 
     void Update() {
@@ -105,14 +105,19 @@ struct ToggleButton {
             bgColor = ColorBrightness(bgColor, 0.3f);
         }
         
-        DrawRectangleRounded(bounds, 0.3f, 6, bgColor);
-        DrawRectangleRoundedLines(bounds, 0.3f, 6, darkGreen);
+        DrawRectangleRounded(bounds, bounds.height / 2, 6, bgColor);
+        DrawRectangleRoundedLines(bounds, bounds.height / 2, 6, darkGreen);
+        
+        float circleRadius = (bounds.height - 4) / 2;
+        float circleX = *value ? (bounds.x + bounds.width - circleRadius - 2) : (bounds.x + circleRadius + 2);
+        float circleY = bounds.y + bounds.height / 2;
+        DrawCircle((int)circleX, (int)circleY, circleRadius, WHITE);
         
         const char* stateText = *value ? "ON" : "OFF";
         int textWidth = MeasureText(stateText, fontSize);
-        float textX = bounds.x + (bounds.width - textWidth) / 2;
+        float textX = bounds.x + bounds.width + 25;
         float textY = bounds.y + (bounds.height - fontSize) / 2;
-        DrawText(stateText, (int)textX, (int)textY, fontSize, WHITE);
+        DrawText(stateText, (int)textX, (int)textY, fontSize, darkGreen);
     }
 };
 
@@ -135,7 +140,7 @@ struct SelectorButton {
         options = opts;
         leftHovered = false;
         rightHovered = false;
-        fontSize = 16;
+        fontSize = 20;
     }
 
     void Update() {
@@ -164,8 +169,8 @@ struct SelectorButton {
         Color leftColor = leftHovered ? darkGreen : gray;
         Color rightColor = rightHovered ? darkGreen : gray;
         
-        DrawText("<", (int)(bounds.x + 10), (int)(bounds.y + bounds.height/2 - 8), 18, leftColor);
-        DrawText(">", (int)(bounds.x + bounds.width - 22), (int)(bounds.y + bounds.height/2 - 8), 18, rightColor);
+        DrawText("<", (int)(bounds.x + 10), (int)(bounds.y + bounds.height/2 - 10), 22, leftColor);
+        DrawText(">", (int)(bounds.x + bounds.width - 26), (int)(bounds.y + bounds.height/2 - 10), 22, rightColor);
         
         const char* currentOption = options[*currentIndex];
         int textWidth = MeasureText(currentOption, fontSize);
@@ -196,7 +201,7 @@ struct ColorSelector {
         colorCount = count;
         leftHovered = false;
         rightHovered = false;
-        fontSize = 16;
+        fontSize = 20;
     }
 
     void Update() {
@@ -225,8 +230,8 @@ struct ColorSelector {
         Color leftColor = leftHovered ? darkGreen : gray;
         Color rightColor = rightHovered ? darkGreen : gray;
         
-        DrawText("<", (int)(bounds.x + 10), (int)(bounds.y + bounds.height/2 - 8), 18, leftColor);
-        DrawText(">", (int)(bounds.x + bounds.width - 22), (int)(bounds.y + bounds.height/2 - 8), 18, rightColor);
+        DrawText("<", (int)(bounds.x + 10), (int)(bounds.y + bounds.height/2 - 10), 22, leftColor);
+        DrawText(">", (int)(bounds.x + bounds.width - 26), (int)(bounds.y + bounds.height/2 - 10), 22, rightColor);
         
         Rectangle colorPreview = {bounds.x + bounds.width - 60, bounds.y + 5, bounds.height - 10, bounds.height - 10};
         DrawRectangleRounded(colorPreview, 0.2f, 4, colors[*currentIndex]);

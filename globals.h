@@ -59,7 +59,7 @@ extern double lastUpdateTime;
 
 struct Settings {
     Difficulty difficulty = NORMAL;
-    bool soundEnabled = true;
+    int soundVolumeIndex = 4;
     GridSize gridSize = MEDIUM;
     bool wallsEnabled = true;
     int snakeColorIndex = 0;
@@ -89,5 +89,9 @@ int GetGameOffsetX();
 int GetGameOffsetY();
 bool eventTriggered(double interval);
 bool ElementInDeque(Vector2 element, std::deque<Vector2>& deque);
+
+int LoadHighScore();
+void SaveHighScore(int score);
+void DeleteHighScore();
 
 #endif
